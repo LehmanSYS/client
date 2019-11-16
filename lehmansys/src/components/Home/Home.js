@@ -177,11 +177,11 @@ const x = document.getElementById("demo")
                     //heatmap={heatMapData}          
                     //onClick={this.onMapClick.bind(this)}
                 >
-                {/* <AnyReactComponent
-                    lat={18.2208}
-                    lng={-66.5901}
-                    //text="My Marker"
-                /> */}
+                <AnyReactComponent
+                    lat={this.state.latitude}
+                    lng={this.state.longitude}
+                    text="My Location"
+                />
                 </GoogleMapReact>
                 
             </div>
