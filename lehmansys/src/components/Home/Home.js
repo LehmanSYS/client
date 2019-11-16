@@ -6,6 +6,7 @@ import Locate from '../Locate/Locate';
 import SearchAppBar from '../Locate/Locate';
 //import AppBar from '@material-ui/core/AppBar';
 import DraggableDialog from '../Locate/Test';
+import { spacing } from '@material-ui/system';
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
  class Map extends Component {
@@ -109,18 +110,42 @@ const AnyReactComponent = ({ text }) => <div>{text}</div>;
   justify-content: center;
   flex-direction: column;
   text-align: center; */}
-                    <Typography variant="h6" noWrap style={{width: '25%' }} display="flex" justifyContent="center" direction="column" alignItem="center">
+                    <Typography variant="h6" noWrap style={{width: '25%' }} align="center">
                         LehmanSYS
                     </Typography>
-                    <Typography variant="h6" noWrap style={{width: '25%' }} align="center">
-                        Add Property
-                    </Typography>
-                    <Typography variant="h6" noWrap style={{width: '25%' }} align="center">
-                        Locate Me
-                    </Typography>
-                    <Typography variant="h6" noWrap style={{width: '25%' }} align="center">
-                        Chat
-                    </Typography>
+                    <Button
+                        type="submit"
+                        //fullWidth
+                        style={{height:'100%', width: '25%' }}
+                        variant="contained"
+                        color="primary"
+                        //className={classes.submit}
+                        //onClick={this.handleSubmit}
+                    >
+                       Add Property
+                    </Button>
+                    <Button
+                        type="submit"
+                        style={{height:'100%', width: '25%' }}
+                        //fullWidth
+                        variant="contained"
+                        color="primary"
+                        //className={classes.submit}
+                        //onClick={this.handleSubmit}
+                    >
+                       Locate Me
+                    </Button>
+                    <Button
+                        type="submit"
+                        style={{height:'100%', width: '25%' }}
+                        //fullWidth
+                        variant="contained"
+                        color="primary"
+                        //className={classes.submit}
+                        //onClick={this.handleSubmit}
+                    >
+                       Chat
+                    </Button>
                  </Toolbar>
             </div>
          </div>

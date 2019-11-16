@@ -129,7 +129,7 @@ class Welcome extends React.Component {
                 LehmanSYS
               </Typography>
               <form className={classes.form} noValidate>
-                <Link to="/" variant="body2">
+                <Link to="/home" variant="body2">
                     <Button
                         type="submit"
                         fullWidth
