@@ -9,26 +9,27 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import withStyles from '@material-ui/styles/withStyles';
+import { withStyles } from '@material-ui/core/styles';
 import { Link, withRouter } from 'react-router-dom';
 // import ReactPhoneInput from 'react-phone-input-mui';
 //var MuiPhoneNumber = require("material-ui-phone-number")
-import axios from 'axios';
+// import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import Cookies from 'universal-cookie';
-import Homepage from './Homepage';
+// import Cookies from 'universal-cookie';
+// import Homepage from './Homepage';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="">
+      {/* <Link color="inherit" href=""> */}
         LehmanSYS
-      </Link>{' '}
+      {/* </Link>{' '} */}
+      {' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -40,7 +41,7 @@ const styles = theme => ({
         height: '100vh',
     },
     image: {
-        backgroundImage: 'url(https://miro.medium.com/max/7520/0*qLEaUzbt5_ZYABGJ)',
+        backgroundImage: 'url(https://media2.govtech.com/images/940*630/Bahamas3.jpg)',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -64,7 +65,7 @@ const styles = theme => ({
     },
 });
 
-class Signin extends React.Component {
+class Welcome extends React.Component {
     constructor(props) {
         super();
         this.state = {
@@ -106,15 +107,15 @@ class Signin extends React.Component {
 
     render() {
         //const {  }
-        if (this.state.isAuthenticated) {
-            //debugger
-            return(
-                // <Homepage profile={this.state.profile}/>
-                // <div>
-                //    Welcome, {this.state.profile.name}
-                // </div>
-            )
-        }
+        // if (this.state.isAuthenticated) {
+        //     //debugger
+        //     return(
+        //         // <Homepage profile={this.state.profile}/>
+        //         // <div>
+        //         //    Welcome, {this.state.profile.name}
+        //         // </div>
+        //     )
+        // }
     //const { classes } = this.props;
     const { classes} = this.props;
     return (
@@ -122,43 +123,25 @@ class Signin extends React.Component {
           <CssBaseline />
           <Grid item xs={false} sm={4} md={7} className={classes.image} />
           <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
             <div className={classes.paper}>
-              <Avatar className={classes.avatar}>
-                <LockOutlinedIcon />
-              </Avatar>
               <Typography component="h1" variant="h5">
-                Sign in
+                LehmanSYS
               </Typography>
               <form className={classes.form} noValidate>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  //required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                  onChange={this.handleChange('email')}
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  //required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  onChange={this.handleChange('password')}
-                />
-                {/* <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
-                /> */}
-                <Button
+                <Link to="/" variant="body2">
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                        onClick={this.handleSubmit}
+                    >
+                        Get Started
+                    </Button>
+                </Link>
+                {/* <Button
                   type="submit"
                   fullWidth
                   variant="contained"
@@ -166,8 +149,8 @@ class Signin extends React.Component {
                   className={classes.submit}
                   onClick={this.handleSubmit}
                 >
-                  Sign In
-                </Button>
+                  Get Started
+                </Button> */}
                 <Grid container>
                   <Grid item xs>
                     {/* <Link href="" variant="body2">
@@ -175,9 +158,7 @@ class Signin extends React.Component {
                     </Link> */}
                   </Grid>
                   <Grid item>
-                    <Link to="/" variant="body2">
-                        Get Started
-                    </Link>
+                    
                   </Grid>
                 </Grid>
                 <Box mt={5}>
@@ -191,4 +172,4 @@ class Signin extends React.Component {
   }
 }
 
-export default withRouter(withStyles(styles)(Signin))
+export default withRouter(withStyles(styles)(Welcome))
