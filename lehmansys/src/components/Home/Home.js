@@ -1,19 +1,15 @@
- /* global google */
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import {Button,Modal, DialogContent, TextField, Toolbar, AppBar, Typography, Dialog, DialogTitle, DialogContentText, DialogActions} from '@material-ui/core';
 import Locate from '../Locate/Locate';
 import SearchAppBar from '../Locate/Locate';
-//import AppBar from '@material-ui/core/AppBar';
-//import DraggableDialog from '../Locate/Test';
 import { spacing } from '@material-ui/system';
 import Geolocation from "react-geolocation";
 import { withStyles } from '@material-ui/core/styles';
 import { Link, withRouter } from 'react-router-dom';
 import axios from 'axios';
-import FormDialog from '../Locate/Test';
-//import {usePosition} from '../Locate/useLocation';
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+import Register from './Register';
+const AnyReactComponent = ({ text}) => <div>{text}</div>;
 
 const styles = theme => ({
     root: {
@@ -64,50 +60,25 @@ const x = document.getElementById("demo")
             mapVisible: true,
             latitude: "",
             longitude: "",
-            //  heatmapPoints: [
-            //      {lat: 18.2208, lng: -66.5901},
-            //      {lat: 18.1808, lng: -66.9799},
-            //      {lat: 18.2275, lng: -65.9210},
-            //      {lat: 18.1830, lng: -65.8663},
-            //      {lat: 18.2269, lng: -66.3912},
-            //      {lat: 18.1866, lng: -66.3063},
-            //      {lat: 18.2388, lng: -66.0352},
-            //      {lat: 18.1218, lng: -66.4986},
-            //      {lat: 18.0534, lng: -66.5075},
-            //      {lat: 18.1119, lng: -66.1660},
-            //      {lat: 18.0037, lng: -66.0134},
-            //      {lat: 18.2192, lng: -66.2256},
-            //      {lat: 18.4445, lng: -66.2543},
-            //      {lat: 18.3894, lng: -66.1653},
-            //      {lat: 18.4465, lng: -66.1356},
-            //      {lat: 18.2569, lng: -66.1029},
- 
-            //              //{lat: 59.96, lng: 30.32}
-            //  ]
          }
      }
-     
-    //  onMapClick({x, y, lat, lng, event}) {
-    //      if (!this.state.heatmapVisible) {
-    //        return
-    //      }
-         
-    //        this.setState({
-    //            heatmapPoints: [ ...this.state.heatmapPoints, {lat, lng}]
-    //        })
-    //      if (this._googleMap !== undefined) {      
-    //        const point = new google.maps.LatLng(lat, lng)
-    //        this._googleMap.heatmap.data.push(point)
-    //      }
-    //  }
 
     handleSubmit = async (event) => {
-        const apiLink = "https://lehman-hacks-backend.herokuapp.com/api/location/gps";
+        console.log("HIIII")
+        const apiLink = "https://localhost:4000/api/location/gps";
         event.preventDefault();
         let coordinates = {
             latitude: this.state.latitude,
             longitude: this.state.longitude
         }
+
+        await axios.put("https://localhost:4000/api/find/local", coordinates)
+        .then(data => {
+            console.log(data)
+            this.setState({
+                marker: data.response
+            })
+        })
 
         let res = await axios.post(apiLink, coordinates)
         if(!res.data.success){
@@ -129,18 +100,6 @@ const x = document.getElementById("demo")
            }      
          })
      }
-    //  handleClickOpen = event => {
-    //     this.setState({setOpen:true});
-    // };
-
-    // handleClose = event => {
-    //     this.setState({setOpen:false});
-    // };
-
-    // handleChatSubmit () {
-
-    // }
-
     handleKeyPress = event => {
         if(event.key === 'Enter') {
           this.handleChatSubmit();
@@ -153,18 +112,9 @@ const x = document.getElementById("demo")
         });
     };
      render() {
-         //const { latitude, longitude, timestamp, accuracy, error } = usePosition(true)
          const apiKey = { key: "AIzaSyABlJ4jGNiDwkSJftHdrDjfXrtCs0ECrrs" }
          const{classes} = this.props
-        //  const heatMapData = {
-        //      positions: this.state.heatmapPoints,
-        //      options: {
-        //          radius: 20,
-        //          opacity: 0.6
-        //      }
-        //  }
          console.log(this.state)
-         //console.log(this.getLocation())
          return (
             <div>
             <div style={{ height: '85vh', width: '100%' }}>
@@ -172,23 +122,21 @@ const x = document.getElementById("demo")
                     ref={(el) => this._googleMap = el}
                     bootstrapURLKeys={apiKey}
                     defaultCenter={this.props.center}
+                    yesIWantToUseGoogleMapApiInternals
                     defaultZoom={this.props.zoom}
-                    //heatmapLibrary={true}          
-                    //heatmap={heatMapData}          
-                    //onClick={this.onMapClick.bind(this)}
                 >
                 <AnyReactComponent
                     lat={this.state.latitude}
                     lng={this.state.longitude}
-                    text="My Location"
+                    text = "<You Are Here>"
                 />
                 </GoogleMapReact>
                 
             </div>
                 <div >
                     <Toolbar>
-                        <Typography variant="h6" noWrap style={{width: '25%' }} align="center">
-                            LehmanSYS
+                        <Typography variant="h3" noWrap style={{width: '25%' }} align="center">
+                            H A V E N
                         </Typography>
                         <Geolocation
                             render={({
@@ -201,7 +149,6 @@ const x = document.getElementById("demo")
                                 <Button
                                     type="submit"
                                     style={{height:'75hv', width: '100%' }}
-                                    //fullWidth
                                     variant="outlined" 
                                     color="primary"
                                     className={classes.submit}
@@ -220,8 +167,6 @@ const x = document.getElementById("demo")
                                     {error.message}
                                     </div>}
                                 <pre>
-                                    {/* latitude: {latitude}
-                                    longitude: {longitude} */}
                                 </pre>
                                 </div>}
                         />
@@ -232,7 +177,6 @@ const x = document.getElementById("demo")
                             variant="outlined" 
                             color="primary"
                             className={classes.submit}
-                            //onClick={this.handleSubmit}
                         >
                         Add Property
                         </Button>
@@ -275,17 +219,6 @@ const x = document.getElementById("demo")
                             </Button>
                             </DialogActions>
                         </Dialog>
-                        {/* <Button
-                            type="submit"
-                            style={{height:'100%', width: '25%' }}
-                            //fullWidth
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                            //onClick={this.handleSubmit}
-                        >
-                        Chat
-                        </Button> */}
                     </Toolbar>
                 </div>
             </div>

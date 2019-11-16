@@ -41,7 +41,7 @@ const styles = theme => ({
         height: '100vh',
     },
     image: {
-        backgroundImage: 'url(https://media2.govtech.com/images/940*630/Bahamas3.jpg)',
+        backgroundImage: 'url(https://media.voltron.voanews.com/Drupal/01live-166/styles/sourced/s3/2019-09/AP_19273480405639.jpg?itok=7utyH0cC)',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -125,8 +125,8 @@ class Welcome extends React.Component {
           <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
             <div className={classes.paper}>
-              <Typography component="h1" variant="h5">
-                LehmanSYS
+              <Typography component="h1" variant="h1">
+                H A V E N
               </Typography>
               <form className={classes.form} noValidate>
                 <Link to="/home" variant="body2">
