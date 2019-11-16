@@ -5,9 +5,45 @@ import {Button,Modal, DialogContent, TextField, Toolbar, AppBar, Typography} fro
 import Locate from '../Locate/Locate';
 import SearchAppBar from '../Locate/Locate';
 //import AppBar from '@material-ui/core/AppBar';
-import DraggableDialog from '../Locate/Test';
+//import DraggableDialog from '../Locate/Test';
 import { spacing } from '@material-ui/system';
+import Geolocation from "react-geolocation";
+import { withStyles } from '@material-ui/core/styles';
+import { Link, withRouter } from 'react-router-dom';
+import axios from 'axios';
+//import {usePosition} from '../Locate/useLocation';
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
+
+const styles = theme => ({
+    root: {
+        height: '100vh',
+    },
+    // image: {
+    //     backgroundImage: 'url(https://media2.govtech.com/images/940*630/Bahamas3.jpg)',
+    //     backgroundRepeat: 'no-repeat',
+    //     backgroundSize: 'cover',
+    //     backgroundPosition: 'center',
+    // },
+    paper: {
+        margin: theme.spacing(8, 4),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(1),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+});
+
+const x = document.getElementById("demo")
 
  class Map extends Component {
    static defaultProps = {
@@ -17,12 +53,14 @@ const AnyReactComponent = ({ text }) => <div>{text}</div>;
      },
      zoom: 10
    };
- 
+
      constructor(props) {
          super(props)
          this.state = {
-            locateMe: false
-            //  heatmapVisible: true,
+            locateMe: false,
+            mapVisible: true,
+            latitude: "",
+            longitude: ""
             //  heatmapPoints: [
             //      {lat: 18.2208, lng: -66.5901},
             //      {lat: 18.1808, lng: -66.9799},
@@ -45,7 +83,7 @@ const AnyReactComponent = ({ text }) => <div>{text}</div>;
             //  ]
          }
      }
- 
+     
     //  onMapClick({x, y, lat, lng, event}) {
     //      if (!this.state.heatmapVisible) {
     //        return
@@ -59,23 +97,47 @@ const AnyReactComponent = ({ text }) => <div>{text}</div>;
     //        this._googleMap.heatmap.data.push(point)
     //      }
     //  }
- 
-    //  toggleHeatMap() {    
-    //      this.setState({
-    //        heatmapVisible: !this.state.heatmapVisible
-    //      }, () => {
-    //        if (this._googleMap !== undefined) {
-    //          this._googleMap.heatmap.setMap(this.state.heatmapVisible ? this._googleMap.map_ : null)
-    //        }      
-    //      })
-    //  }
+
+    handleSubmit = async (event) => {
+        const apiLink = "http://"
+        event.preventDefault();
+        let coordinates = {
+            latitude: this.state.latitude,
+            longitude: this.state.longitude
+        }
+
+        let res = await axios.post(apiLink, coordinates)
+        if(!res.data.success){
+            alert("Invalid coordinates!")
+        }
+
+        else{
+            console.log("Success!")
+        }
+
+    }
+
+    handleState () {
+
+    }
+     toggleMap() {    
+         this.setState({
+           mapVisible: !this.state.mapVisible
+         }, () => {
+           if (this._googleMap !== undefined) {
+             this._googleMap.heatmap.setMap(this.state.heatmapVisible ? this._googleMap.map_ : null)
+           }      
+         })
+     }
     toggleLocate = () => {
         this.setState({
           locateMe: !this.state.locateMe
         });
     };
      render() {
+         //const { latitude, longitude, timestamp, accuracy, error } = usePosition(true)
          const apiKey = { key: "AIzaSyABlJ4jGNiDwkSJftHdrDjfXrtCs0ECrrs" }
+         const{classes} = this.props
         //  const heatMapData = {
         //      positions: this.state.heatmapPoints,
         //      options: {
@@ -84,73 +146,105 @@ const AnyReactComponent = ({ text }) => <div>{text}</div>;
         //      }
         //  }
          console.log(this.state)
+         //console.log(this.getLocation())
          return (
-        <div>
-           <div style={{ height: '85vh', width: '100%' }}>
-             <GoogleMapReact
-                 ref={(el) => this._googleMap = el}
-                 bootstrapURLKeys={apiKey}
-                 defaultCenter={this.props.center}
-                 defaultZoom={this.props.zoom}
-                 //heatmapLibrary={true}          
-                 //heatmap={heatMapData}          
-                 //onClick={this.onMapClick.bind(this)}
-             >
-             {/* <AnyReactComponent
-                 lat={18.2208}
-                 lng={-66.5901}
-                 //text="My Marker"
-             /> */}
-             </GoogleMapReact>
-             
-           </div>
-            <div >
-                 <Toolbar>
-                 {/* display: flex;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center; */}
-                    <Typography variant="h6" noWrap style={{width: '25%' }} align="center">
-                        LehmanSYS
-                    </Typography>
-                    <Button
-                        type="submit"
-                        //fullWidth
-                        style={{height:'100%', width: '25%' }}
-                        variant="contained"
-                        color="primary"
-                        //className={classes.submit}
-                        //onClick={this.handleSubmit}
-                    >
-                       Add Property
-                    </Button>
-                    <Button
-                        type="submit"
-                        style={{height:'100%', width: '25%' }}
-                        //fullWidth
-                        variant="contained"
-                        color="primary"
-                        //className={classes.submit}
-                        //onClick={this.handleSubmit}
-                    >
-                       Locate Me
-                    </Button>
-                    <Button
-                        type="submit"
-                        style={{height:'100%', width: '25%' }}
-                        //fullWidth
-                        variant="contained"
-                        color="primary"
-                        //className={classes.submit}
-                        //onClick={this.handleSubmit}
-                    >
-                       Chat
-                    </Button>
-                 </Toolbar>
+            <div>
+            <div style={{ height: '85vh', width: '100%' }}>
+                <GoogleMapReact
+                    ref={(el) => this._googleMap = el}
+                    bootstrapURLKeys={apiKey}
+                    defaultCenter={this.props.center}
+                    defaultZoom={this.props.zoom}
+                    //heatmapLibrary={true}          
+                    //heatmap={heatMapData}          
+                    //onClick={this.onMapClick.bind(this)}
+                >
+                {/* <AnyReactComponent
+                    lat={18.2208}
+                    lng={-66.5901}
+                    //text="My Marker"
+                /> */}
+                </GoogleMapReact>
+                
             </div>
-         </div>
+                <div >
+                    <Toolbar>
+                        <Typography variant="h6" noWrap style={{width: '25%' }} align="center">
+                            LehmanSYS
+                        </Typography>
+                        <Geolocation
+                            render={({
+                                fetchingPosition,
+                                position: { coords: { latitude, longitude } = {} } = {},
+                                error,
+                                getCurrentPosition
+                            }) =>
+                                <div>
+                                <Button
+                                    type="submit"
+                                    style={{height:'75hv', width: '100%' }}
+                                    //fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.submit}
+                                    onClick={()=>{
+                                        this.setState({
+                                           latitude: latitude,
+                                           longitude: longitude 
+                                        })
+                                        getCurrentPosition()
+                                    }}
+                                >
+                                    Locate Me
+                                </Button>
+                                {error &&
+                                    <div>
+                                    {error.message}
+                                    </div>}
+                                <pre>
+                                    {/* latitude: {latitude}
+                                    longitude: {longitude} */}
+                                </pre>
+                                </div>}
+                        />
+                        <Button
+                            type="submit"
+                            //fullWidth
+                            style={{height:'100%', width: '25%' }}
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                            //onClick={this.handleSubmit}
+                        >
+                        Add Property
+                        </Button>
+                        <Button
+                            type="submit"
+                            style={{height:'100%', width: '25%' }}
+                            //fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                            onClick={this.handleSubmit}
+                        >
+                        Shelters Near Me
+                        </Button>
+                        <Button
+                            type="submit"
+                            style={{height:'100%', width: '25%' }}
+                            //fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                            //onClick={this.handleSubmit}
+                        >
+                        Chat
+                        </Button>
+                    </Toolbar>
+                </div>
+            </div>
          );
      }
  }
   
- export default Map;
+ export default withRouter(withStyles(styles)(Map))
