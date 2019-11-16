@@ -1,7 +1,7 @@
  /* global google */
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
-import {Button,Modal, DialogContent, TextField, Toolbar, AppBar, Typography} from '@material-ui/core';
+import {Button,Modal, DialogContent, TextField, Toolbar, AppBar, Typography, Dialog, DialogTitle, DialogContentText, DialogActions} from '@material-ui/core';
 import Locate from '../Locate/Locate';
 import SearchAppBar from '../Locate/Locate';
 //import AppBar from '@material-ui/core/AppBar';
@@ -11,6 +11,7 @@ import Geolocation from "react-geolocation";
 import { withStyles } from '@material-ui/core/styles';
 import { Link, withRouter } from 'react-router-dom';
 import axios from 'axios';
+import FormDialog from '../Locate/Test';
 //import {usePosition} from '../Locate/useLocation';
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
@@ -57,10 +58,12 @@ const x = document.getElementById("demo")
      constructor(props) {
          super(props)
          this.state = {
-            locateMe: false,
+            toggleChat: false,
+            isOpen: false,
+            //setOpen: false,
             mapVisible: true,
             latitude: "",
-            longitude: ""
+            longitude: "",
             //  heatmapPoints: [
             //      {lat: 18.2208, lng: -66.5901},
             //      {lat: 18.1808, lng: -66.9799},
@@ -99,7 +102,7 @@ const x = document.getElementById("demo")
     //  }
 
     handleSubmit = async (event) => {
-        const apiLink = "http://"
+        const apiLink = "https://lehman-hacks-backend.herokuapp.com/api/location/gps";
         event.preventDefault();
         let coordinates = {
             latitude: this.state.latitude,
@@ -117,9 +120,6 @@ const x = document.getElementById("demo")
 
     }
 
-    handleState () {
-
-    }
      toggleMap() {    
          this.setState({
            mapVisible: !this.state.mapVisible
@@ -129,9 +129,27 @@ const x = document.getElementById("demo")
            }      
          })
      }
-    toggleLocate = () => {
+    //  handleClickOpen = event => {
+    //     this.setState({setOpen:true});
+    // };
+
+    // handleClose = event => {
+    //     this.setState({setOpen:false});
+    // };
+
+    // handleChatSubmit () {
+
+    // }
+
+    handleKeyPress = event => {
+        if(event.key === 'Enter') {
+          this.handleChatSubmit();
+        }
+    }
+
+    handleToggle = () => {
         this.setState({
-          locateMe: !this.state.locateMe
+          toggleChat: !this.state.toggleChat
         });
     };
      render() {
@@ -184,7 +202,7 @@ const x = document.getElementById("demo")
                                     type="submit"
                                     style={{height:'75hv', width: '100%' }}
                                     //fullWidth
-                                    variant="contained"
+                                    variant="outlined" 
                                     color="primary"
                                     className={classes.submit}
                                     onClick={()=>{
@@ -211,7 +229,7 @@ const x = document.getElementById("demo")
                             type="submit"
                             //fullWidth
                             style={{height:'100%', width: '25%' }}
-                            variant="contained"
+                            variant="outlined" 
                             color="primary"
                             className={classes.submit}
                             //onClick={this.handleSubmit}
@@ -222,14 +240,42 @@ const x = document.getElementById("demo")
                             type="submit"
                             style={{height:'100%', width: '25%' }}
                             //fullWidth
-                            variant="contained"
+                            variant="outlined" 
                             color="primary"
                             className={classes.submit}
                             onClick={this.handleSubmit}
                         >
                         Shelters Near Me
                         </Button>
-                        <Button
+                        {/* <FormDialog/> */}
+                        <Button variant="outlined" color="primary" onClick={this.handleToggle}>
+                            Open Chat Bot
+                        </Button>
+                        <Dialog open={this.state.toggleChat} onClose={this.handleToggle} aria-labelledby="form-dialog-title">
+                            <DialogTitle id="form-dialog-title">Chat Bot</DialogTitle>
+                            <DialogContent>
+                            <DialogContentText>
+                                Hello I'm helping Bear, ask me anything!
+                            </DialogContentText>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="chat"
+                                label="ask something"
+                                type="chat"
+                                fullWidth
+                            />
+                            </DialogContent>
+                            <DialogActions>
+                            <Button onClick={this.handleToggle} color="primary">
+                                Cancel
+                            </Button>
+                            <Button onClick={this.handleToggle} color="primary">
+                                Send
+                            </Button>
+                            </DialogActions>
+                        </Dialog>
+                        {/* <Button
                             type="submit"
                             style={{height:'100%', width: '25%' }}
                             //fullWidth
@@ -239,7 +285,7 @@ const x = document.getElementById("demo")
                             //onClick={this.handleSubmit}
                         >
                         Chat
-                        </Button>
+                        </Button> */}
                     </Toolbar>
                 </div>
             </div>
