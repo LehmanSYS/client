@@ -5,30 +5,20 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-//import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-//import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/core/styles';
 import { Link, withRouter } from 'react-router-dom';
-// import ReactPhoneInput from 'react-phone-input-mui';
-//var MuiPhoneNumber = require("material-ui-phone-number")
-// import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-// import Cookies from 'universal-cookie';
-// import Homepage from './Homepage';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      {/* <Link color="inherit" href=""> */}
-        LehmanSYS
-      {/* </Link>{' '} */}
+        H A V E N
       {' '}
       {new Date().getFullYear()}
       {'.'}
@@ -69,27 +59,8 @@ class Welcome extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            // email: "",
-            // password:"",
-            // redirect: false,
-            // isAuthenticated: false,
-            // profile: {}
         };
     }
-
-    // componentDidMount() {
-    //     const auth = sessionStorage.getItem("pizzaAuth");
-    //     if (auth) {
-    //       this.setState({
-    //         isAuthenticated: true
-    //       });
-    //     } 
-    //     else {
-    //       this.setState({
-    //         isAuthenticated: false
-    //       });
-    //     }
-    // }
 
     handleChange = event => ({target}) => {
         this.setState({[event]: target.value});
@@ -106,17 +77,6 @@ class Welcome extends React.Component {
     }
 
     render() {
-        //const {  }
-        // if (this.state.isAuthenticated) {
-        //     //debugger
-        //     return(
-        //         // <Homepage profile={this.state.profile}/>
-        //         // <div>
-        //         //    Welcome, {this.state.profile.name}
-        //         // </div>
-        //     )
-        // }
-    //const { classes } = this.props;
     const { classes} = this.props;
     return (
         <Grid container component="main" className={classes.root}>
@@ -141,21 +101,8 @@ class Welcome extends React.Component {
                         Get Started
                     </Button>
                 </Link>
-                {/* <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  onClick={this.handleSubmit}
-                >
-                  Get Started
-                </Button> */}
                 <Grid container>
                   <Grid item xs>
-                    {/* <Link href="" variant="body2">
-                      Forgot password?
-                    </Link> */}
                   </Grid>
                   <Grid item>
                     
